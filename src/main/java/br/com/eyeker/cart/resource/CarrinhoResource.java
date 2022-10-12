@@ -4,9 +4,11 @@ import br.com.eyeker.cart.model.Carrinho;
 import br.com.eyeker.cart.model.Item;
 import br.com.eyeker.cart.resource.dto.ItemDto;
 import br.com.eyeker.cart.service.CarrinhoService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+@Api(value="/ifood-devweek/carrinhos")
 @RestController
 @RequestMapping("/ifood-devweek/carrinhos")
 @RequiredArgsConstructor

@@ -12,6 +12,7 @@ import br.com.eyeker.cart.service.CarrinhoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -51,8 +52,27 @@ public class CarrinhoServiceImpl implements CarrinhoService {
                 throw new RuntimeException("Não é possível adicionar produtos de restaurantes diferentes. Finalize o pedido ou esvazie o carrinho.");
             }
         }
+
+        // Calculando o valor total do carrinho
+        List<Double> valorDosItens = new ArrayList<>();
+
+        for (Item itemDoCarrinho : itensDoCarrinho) {
+            double valorTotalItem = itemDoCarrinho.getProduto().getValorUnitario() * itemDoCarrinho.getQuantidade();
+            valorDosItens.add(valorTotalItem);
+        }
+
+        //Estudar mais essa parte
+        double valorTotalCarrinho = valorDosItens.stream()
+                .mapToDouble(valorTotalDeCadaItem -> valorTotalDeCadaItem)
+                .sum();
+       /* Double valorTotalCarrinho = 0.0;
+        for (Double valorDeCadaItem : valorDosItens){
+            valorTotalCarrinho += valorDeCadaItem;
+        }*/
+
+        carrinho.setValorTotal(valorTotalCarrinho);
         carrinhoRepository.save(carrinho);
-        return itemRepository.save(itemParaSerInserido);
+        return itemParaSerInserido;
     }
 
     @Override
